@@ -2,6 +2,7 @@ import { Component, OnInit ,Input, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { UserViewModel } from '../Models/UserViewModel';
 import { collectExternalReferences } from '@angular/compiler';
+import { AlertifyService } from '../_services/alertify.service';
 
 
 @Component({
@@ -11,10 +12,11 @@ import { collectExternalReferences } from '@angular/compiler';
 })
 export class RegisterComponent implements OnInit {
 
+
   @Input() valuesFromHome:any;
   @Output() cancelRegister=new EventEmitter();
   userViewModel:UserViewModel=new UserViewModel();
-  constructor(private authService:AuthService) { }
+  constructor(private authService:AuthService,private alertify:AlertifyService) { }
 
   ngOnInit() {
   }
@@ -27,7 +29,9 @@ this.cancelRegister.emit(false);
     this.authService.register(this.userViewModel).subscribe(()=>{
       console.log('Registration Succesful!!')
     },error=>{
-      console.log(error);
+      this.alertify.error(error);
+      this.alertify.error(error["UserName"][0]);
+      this.alertify.error(error["Password"][0]);
     })
   }
 }

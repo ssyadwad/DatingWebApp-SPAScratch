@@ -3,6 +3,7 @@ import { UserViewModel } from '../Models/UserViewModel';
 import { AuthService } from '../_services/auth.service';
 import { HttpParams } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
+import { AlertifyService } from '../_services/alertify.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -13,7 +14,7 @@ export class NavbarComponent implements OnInit {
   public userViewModel:UserViewModel=new UserViewModel();
   code:string;
   model:any={};
-  constructor(private authService:AuthService) { }
+  constructor(private authService:AuthService,private alertifyService:AlertifyService) { }
 
   ngOnInit() {
     
@@ -30,20 +31,26 @@ export class NavbarComponent implements OnInit {
 
   public login(){
    
-    this.authService.login(this.userViewModel).subscribe({
-      next(){},error(){}
+    this.authService.login(this.userViewModel).subscribe(next => {
+     this.alertifyService.success('Login Successful!');
+    } ,error=> {
+
+     }
       
-    });
-    console.log(this.userViewModel);
+    );
+    
   }
 
   loggedIn(){
+    
    return !! localStorage.getItem('token');
+
   }
 
   logout(){
+    this.alertifyService.success('Logout Successful!');
     localStorage.removeItem('token');
     this.userViewModel.userName="";
-    this.userViewModel.password="";
+    this.userViewModel.password=""; 
   }
 }
