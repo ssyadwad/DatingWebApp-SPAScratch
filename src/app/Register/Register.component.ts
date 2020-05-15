@@ -4,7 +4,6 @@ import { UserViewModel } from '../Models/UserViewModel';
 import { collectExternalReferences } from '@angular/compiler';
 import { AlertifyService } from '../_services/alertify.service';
 
-
 @Component({
   selector: 'app-Register',
   templateUrl: './Register.component.html',
