@@ -43,7 +43,7 @@ export class NavbarComponent implements OnInit {
 
   loggedIn(){
     
-   return !! localStorage.getItem('token');
+   return this.authService.loggedIn();
 
   }
 
