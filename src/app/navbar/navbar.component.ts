@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserViewModel } from '../Models/UserViewModel';
 import { AuthService } from '../_services/auth.service';
 import { HttpParams } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { AlertifyService } from '../_services/alertify.service';
 @Component({
   selector: 'app-navbar',
@@ -14,7 +14,7 @@ export class NavbarComponent implements OnInit {
   public userViewModel:UserViewModel=new UserViewModel();
   code:string;
   model:any={};
-  constructor(private authService:AuthService,private alertifyService:AlertifyService) { }
+  constructor(private authService:AuthService,private alertifyService:AlertifyService,private routerService:Router) { }
 
   ngOnInit() {
     
@@ -26,7 +26,7 @@ export class NavbarComponent implements OnInit {
     console.log(paramValue.split('&')[0]);
       console.log(window.location.href);
     }
-
+    localStorage.removeItem('token');
   }
 
   public login(){
@@ -35,6 +35,8 @@ export class NavbarComponent implements OnInit {
      this.alertifyService.success('Login Successful!');
     } ,error=> {
 
+     },()=>{
+       this.routerService.navigate(['/members']);
      }
       
     );
@@ -52,5 +54,6 @@ export class NavbarComponent implements OnInit {
     localStorage.removeItem('token');
     this.userViewModel.userName="";
     this.userViewModel.password=""; 
+    this.routerService.navigate(['/home']);
   }
 }
