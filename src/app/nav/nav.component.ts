@@ -8,6 +8,7 @@ import { AuthenticationService } from 'src/services/authentication.service';
 export class NavComponent implements OnInit {
 
   Model : any= {}
+  loggedin : Boolean = false;
   constructor(private authenticationService:AuthenticationService) { }
 
   ngOnInit() {
@@ -17,10 +18,22 @@ export class NavComponent implements OnInit {
     console.log(this.Model);
     this.authenticationService.login(this.Model).subscribe(response=>{
       console.log(response)
+      this.loggedin=true;
     },error=>{
       console.log(error)
     });
     
+  }
+  loggedIn() {
+    
+    return this.loggedin;
+ 
+   }
+  logout(){
+
+    this.Model.userName="";
+    this.Model.password=""; 
+    this.loggedin=false;
   }
 
 }
